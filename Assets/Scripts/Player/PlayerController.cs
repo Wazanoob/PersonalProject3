@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
         float m_mouseY = Input.GetAxisRaw("Mouse Y") * m_mouseSensitivity * Time.deltaTime;
 
         m_xRotation -= m_mouseY;
-        m_xRotation = Mathf.Clamp(m_xRotation, -15f, 45f);
+        m_xRotation = Mathf.Clamp(m_xRotation, -15f, 90f);
 
         transform.localRotation = Quaternion.Euler(m_xRotation, 0f, 0f);
         m_playerBody.Rotate(Vector3.up * m_mouseX);

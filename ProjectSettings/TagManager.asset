@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Fluid
   - Interactable
+  - Customers
+  - GPE
   layers:
   - Default
   - TransparentFX

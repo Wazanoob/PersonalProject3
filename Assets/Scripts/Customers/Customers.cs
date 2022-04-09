@@ -6,6 +6,7 @@ public class Customers : MonoBehaviour
 {
     //Reference
     private Animator m_anim;
+    public Transform targetCustomer;
 
     //Sound
     private AudioSource m_audioSource;

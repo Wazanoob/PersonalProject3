@@ -4,28 +4,36 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    private Outline highlight;
+    //Reference
+    private Outline m_highlight;
 
-    // Start is called before the first frame update
+    public bool isSelected = false;
+    public bool isHighlighted = false;
+
     void Start()
     {
-        highlight = GetComponent<Outline>();
+        m_highlight = GetComponent<Outline>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (m_highlight.enabled == true && isHighlighted == false)
+        {
+            m_highlight.enabled = false;
+        }
     }
-
-
     void OnMouseEnter()
     {
-        highlight.enabled = true;
+        if (!GameManager.instance.isObjectSelected)
+        {
+            isHighlighted = true;
+            m_highlight.enabled = true;
+        }
     }
 
     void OnMouseExit()
     {
-        highlight.enabled = false;
+        isHighlighted = false;
+        m_highlight.enabled = false;
     }
 }

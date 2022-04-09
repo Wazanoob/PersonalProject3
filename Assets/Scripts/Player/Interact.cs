@@ -5,26 +5,56 @@ using TMPro;
 
 public class Interact : MonoBehaviour
 {
-    //Reference
-    [SerializeField] private TextMeshProUGUI m_interactText;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        m_interactText.enabled = false;
-    }
+    private GameObject m_selectedObject;
 
     // Update is called once per frame
     void Update()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit))
+
+        if (m_selectedObject == null)
         {
-            if (hit.transform.gameObject.CompareTag("Interactable"))
+            if (Physics.Raycast(transform.position, transform.forward, out hit))
             {
-                if(Input.GetKeyDown(KeyCode.E))
+                if (hit.transform.gameObject.CompareTag("Interactable"))
                 {
-                    hit.transform.gameObject.SendMessage("Interact", SendMessageOptions.DontRequireReceiver);
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        hit.transform.gameObject.SendMessage("Interact", SendMessageOptions.DontRequireReceiver);
+                        m_selectedObject = hit.transform.gameObject;
+                        m_selectedObject.layer = 2;
+                    }
+                }else if (hit.transform.gameObject.CompareTag("GPE"))
+                {
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        hit.transform.gameObject.SendMessage("Interact", SendMessageOptions.DontRequireReceiver);
+                    }
+                }
+            }
+        }else
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                if (Physics.Raycast(transform.position, transform.forward, out hit))
+                {
+                    if (hit.transform.gameObject.CompareTag("Customers"))
+                    {
+                        MoveTo newTarget = m_selectedObject.GetComponent<MoveTo>();
+                        Customers customer = hit.transform.gameObject.GetComponent<Customers>();
+                        newTarget.m_targetCustomer = customer.targetCustomer;
+
+                        m_selectedObject.SendMessage("SellToCustomer", SendMessageOptions.DontRequireReceiver);
+
+                        m_selectedObject = null;
+                        Debug.Log("Feed the boi");
+                    }
+                    else
+                    {
+                        m_selectedObject.SendMessage("Interact", SendMessageOptions.DontRequireReceiver);
+                        m_selectedObject.layer = 0;
+                        m_selectedObject = null;
+                    }
                 }
             }
         }

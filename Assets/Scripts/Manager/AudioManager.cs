@@ -93,8 +93,9 @@ public class AudioManager : MonoBehaviour
 
         foreach (ParticleSystem musicNotes in m_musicNotes)
         {
-            musicNotes.startSize = 0.5f;
-            musicNotes.startSpeed = 0.8f;
+            var main = musicNotes.main;
+            main.startSize = 0.5f;
+            main.startSpeed = 0.8f;
         }
 
         m_globalSpeaker.clip = m_clips[clip];
@@ -114,8 +115,9 @@ public class AudioManager : MonoBehaviour
 
             foreach (ParticleSystem musicNotes in m_musicNotes)
             {
-                musicNotes.startSize = 0.1f;
-                musicNotes.startSpeed = 0.5f;
+                var main = musicNotes.main;
+                main.startSize = 0.1f;
+                main.startSpeed = 0.5f;
             }
         }
 
