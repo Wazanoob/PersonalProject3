@@ -22,7 +22,7 @@ public class Interactable : MonoBehaviour
             m_highlight.enabled = false;
         }
     }
-    void OnMouseEnter()
+    void OnMouseOver()
     {
         if (!GameManager.instance.isObjectSelected)
         {

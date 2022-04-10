@@ -64,9 +64,10 @@ public class MoveTo : MonoBehaviour
     void MoveToCustomer()
     {
         if (!m_targetCustomer) return;
-        Vector3 toPosition = m_targetCustomer.position + (m_targetCustomer.rotation * m_defaultDistance);
-        Vector3 currentPosition = Vector3.SmoothDamp(transform.position, toPosition, ref m_velocity, 0);
-        transform.position = currentPosition;
+        transform.position = m_targetCustomer.position;
+        transform.rotation = new Quaternion(0, -45, 0, 0);
+
+        Interact();
     }
 
     void Interact()
@@ -85,7 +86,7 @@ public class MoveTo : MonoBehaviour
         }
     }
 
-    void SellToCustomer()
+    public void SellToCustomer()
     {
         m_isSold = true;
     }

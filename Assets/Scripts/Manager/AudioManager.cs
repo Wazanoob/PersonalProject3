@@ -36,7 +36,7 @@ public class AudioManager : MonoBehaviour
     //Skin
     [SerializeField] private Material m_customerColor;
 
-    private bool m_isMad;
+    public bool isMad;
 
     // Start is called before the first frame update
     void Start()
@@ -52,7 +52,7 @@ public class AudioManager : MonoBehaviour
             NextSong();
         }
         
-        if (m_isMad)
+        if (isMad)
         {
             m_customerColor.color += new Color(0.1f, 0, 0) * Time.deltaTime;
         }else if (m_customerColor.color.r > 0)
@@ -102,7 +102,7 @@ public class AudioManager : MonoBehaviour
         m_globalSpeaker.Play();
         m_lastRandom = clip;
 
-        m_isMad = true;
+        isMad = true;
         OnMad();
     }
 
@@ -110,7 +110,7 @@ public class AudioManager : MonoBehaviour
     {
         if (m_lastRandom == 7 || m_lastRandom == 8)
         {
-            m_isMad = false;
+            isMad = false;
             OnHappy();
 
             foreach (ParticleSystem musicNotes in m_musicNotes)
