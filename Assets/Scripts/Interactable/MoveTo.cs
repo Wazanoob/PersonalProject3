@@ -16,6 +16,10 @@ public class MoveTo : MonoBehaviour
     [SerializeField] private Vector3 m_defaultDistance;
     [SerializeField] private float m_distance;
 
+    //Price
+    //Should Not be Here !
+    public int price;
+
     private bool m_isSold = false;
 
     // Start is called before the first frame update
@@ -35,21 +39,6 @@ public class MoveTo : MonoBehaviour
         {
             MoveToCustomer();
         }
-
-        //if (Input.GetKeyDown(KeyCode.E) && m_interactable.isHighlighted)
-        //{
-        //    m_rigidBody.isKinematic = true;
-        //    m_interactable.isSelected = true;
-        //    m_gameManager.isObjectSelected = true;
-        //    m_interactable.isHighlighted = false;
-        //}
-        //else if (Input.GetKeyDown(KeyCode.E) && m_interactable.isSelected)
-        //{
-        //    m_rigidBody.isKinematic = false;
-        //    m_gameManager.isObjectSelected = false;
-        //    m_interactable.isSelected = false;
-        //}
-
     }
 
     void MoveToTarget()

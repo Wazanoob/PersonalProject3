@@ -64,10 +64,21 @@ public class AudioManager : MonoBehaviour
     public void NextSong()
     {
         int random;
+        int range;
+
+        GameObject[] customers = GameObject.FindGameObjectsWithTag("Customers");
+
+        if (customers.Length == 0)
+        {
+            range = 7;
+        }else
+        {
+            range = m_clips.Length;
+        }
 
         do
         {
-            random = Random.Range(0, m_clips.Length);
+            random = Random.Range(0, range);
         } while (random == m_lastRandom);
 
         if (m_globalSpeaker.isPlaying)

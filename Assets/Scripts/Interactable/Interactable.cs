@@ -24,10 +24,13 @@ public class Interactable : MonoBehaviour
     }
     void OnMouseOver()
     {
-        if (!GameManager.instance.isObjectSelected)
+        if (Time.timeScale != 0)
         {
-            isHighlighted = true;
-            m_highlight.enabled = true;
+            if (!GameManager.instance.isObjectSelected)
+            {
+                isHighlighted = true;
+                m_highlight.enabled = true;
+            }
         }
     }
 

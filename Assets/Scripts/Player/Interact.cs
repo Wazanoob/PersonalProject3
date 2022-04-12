@@ -9,6 +9,10 @@ public class Interact : MonoBehaviour
     private AudioSource m_audioSource;
     [SerializeField] private AudioClip[] m_audioClip;
 
+
+    //Penalty
+    private int m_wrongFoodPenalty = 3;
+
     private void Start()
     {
         m_audioSource = GetComponent<AudioSource>();
@@ -17,69 +21,86 @@ public class Interact : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RaycastHit hit;
-
-        if (m_selectedObject == null)
+        if (Time.timeScale != 0)
         {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                if (Physics.Raycast(transform.position, transform.forward, out hit))
-                {
-                    if (hit.transform.gameObject.CompareTag("Interactable"))
-                    {
-                        hit.transform.gameObject.SendMessage("Interact", SendMessageOptions.DontRequireReceiver);
-                        m_selectedObject = hit.transform.gameObject;
-                        m_selectedObject.layer = 2;
+            RaycastHit hit;
 
-                        m_audioSource.PlayOneShot(m_audioClip[0]);
-                    }
-                    else if (hit.transform.gameObject.CompareTag("GPE"))
+            if (m_selectedObject == null)
+            {
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    if (Physics.Raycast(transform.position, transform.forward, out hit))
                     {
-                        hit.transform.gameObject.SendMessage("Interact", SendMessageOptions.DontRequireReceiver);
+                        if (hit.transform.gameObject.CompareTag("Interactable"))
+                        {
+                            hit.transform.gameObject.SendMessage("Interact", SendMessageOptions.DontRequireReceiver);
+                            m_selectedObject = hit.transform.gameObject;
+                            m_selectedObject.layer = 2;
+
+                            m_audioSource.PlayOneShot(m_audioClip[0]);
+                        }
+                        else if (hit.transform.gameObject.CompareTag("GPE"))
+                        {
+                            hit.transform.gameObject.SendMessage("Interact", SendMessageOptions.DontRequireReceiver);
+                        }
                     }
                 }
             }
-        }else
-        {
-            if (Input.GetKeyDown(KeyCode.E))
+            else
             {
-                if (Physics.Raycast(transform.position, transform.forward, out hit))
+                if (Input.GetKeyDown(KeyCode.E))
                 {
-                    if (hit.transform.gameObject.CompareTag("Customers"))
+                    if (Physics.Raycast(transform.position, transform.forward, out hit))
                     {
-                        Customers customer = hit.transform.gameObject.GetComponent<Customers>();
-                        if (!customer.isEating)
+                        if (hit.transform.gameObject.CompareTag("Customers"))
                         {
-                            MoveTo newTarget = m_selectedObject.GetComponent<MoveTo>();
-                            newTarget.m_targetCustomer = customer.targetCustomer;
-                            newTarget.SellToCustomer();
-                            customer.isEating = true;
-                            m_selectedObject.transform.parent = customer.targetCustomer.parent;
+                            Customers customer = hit.transform.gameObject.GetComponent<Customers>();
 
-                            GameManager.instance.foodAvailable.Remove(m_selectedObject);
+                            if (!customer.isEating)
+                            {
+                                MoveTo selectedObject = m_selectedObject.GetComponent<MoveTo>();
+                                selectedObject.m_targetCustomer = customer.targetCustomer;
+                                customer.wantedSprite.enabled = false;
+                                selectedObject.SellToCustomer();
 
-                            if (m_selectedObject.name == customer.wantedFood.name)
-                            {
-                                //Happy Customer
-                                Debug.Log("Miam");
-                            }else
-                            {
-                                //Sad Customer
-                                Debug.Log("Erk");
+                                if (customer.wantedFood != null)
+                                {
+                                    if (m_selectedObject.name == customer.wantedFood.name)
+                                    {
+                                        //Happy Customer
+                                        customer.CashPopup(selectedObject.price, false);
+                                        Debug.Log("Miam");
+                                    }
+                                    else
+                                    {
+                                        //Sad Customer
+                                        int newPrice = selectedObject.price - m_wrongFoodPenalty;
+                                        customer.CashPopup(newPrice, true);
+                                        Debug.Log("Erk");
+                                    }
+                                }
+                                else
+                                {
+                                    //Sad Customer
+                                    Debug.Log("Erk");
+                                }
+                                m_selectedObject.transform.parent = customer.targetCustomer.parent;
+                                GameManager.instance.foodAvailable.Remove(m_selectedObject);
+
+                                m_selectedObject = null;
+
+                                customer.isEating = true;
+                                customer.ExitAnimation();
                             }
-
+                        }
+                        else
+                        {
+                            m_selectedObject.SendMessage("Interact", SendMessageOptions.DontRequireReceiver);
+                            m_selectedObject.layer = 0;
                             m_selectedObject = null;
 
-                            customer.ExitAnimation();
+                            m_audioSource.PlayOneShot(m_audioClip[1]);
                         }
-                    }
-                    else
-                    {
-                        m_selectedObject.SendMessage("Interact", SendMessageOptions.DontRequireReceiver);
-                        m_selectedObject.layer = 0;
-                        m_selectedObject = null;
-
-                        m_audioSource.PlayOneShot(m_audioClip[1]);
                     }
                 }
             }
