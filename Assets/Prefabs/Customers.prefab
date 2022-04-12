@@ -863,7 +863,9 @@ MonoBehaviour:
   - {fileID: 6299879181744508025}
   targetCustomer: {fileID: 8048204248130008377}
   m_targetPopup: {fileID: 5476957916873789674}
-  m_audioBoing: {fileID: 8300000, guid: 3f8c4ab8ce1d17d4991724fed80a4e99, type: 3}
+  m_sfxBoing: {fileID: 8300000, guid: 3f8c4ab8ce1d17d4991724fed80a4e99, type: 3}
+  m_sfxPop: {fileID: 8300000, guid: 2eacdf84c6076a54c8b1cff653542436, type: 3}
+  m_sfxCash: {fileID: 8300000, guid: 7c489b5ec3862f147954a1aa56fe4100, type: 3}
   isEating: 0
   wantedFood: {fileID: 0}
   spriteList:

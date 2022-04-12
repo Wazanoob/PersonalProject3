@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameManager : MonoBehaviour
@@ -45,11 +46,20 @@ public class GameManager : MonoBehaviour
     public bool m_gameStart = false;
     [SerializeField] private GameObject m_tutoHighlight;
     [SerializeField] private GameObject m_tutoDrop;
+    [SerializeField] private AudioSource m_audioPlayer;
     IEnumerator coroutine;
+
+    //Menu
+    [SerializeField] private GameObject m_menu;
+
+    //Summup
+    [SerializeField] private GameObject m_summup;
+    private bool isEnded = false;
 
     //Ref
     [SerializeField] private Interact m_interact;
     [SerializeField] private AudioClip m_tutoClick;
+    [SerializeField] private AudioClip m_tutoText;
 
 
     // Start is called before the first frame update
@@ -64,6 +74,7 @@ public class GameManager : MonoBehaviour
         m_tutoDrop.SetActive(false);
 
         StartCoroutine(TutoHighlight());
+
     }
 
     // Update is called once per frame
@@ -71,7 +82,7 @@ public class GameManager : MonoBehaviour
     {
         GameObject[] customers = GameObject.FindGameObjectsWithTag("Customers");
 
-        if (m_newCustomer == null && customers.Length < 5 && foodAvailable.Count > 4 && m_gameStart)
+        if (m_newCustomer == null && customers.Length < 5 && foodAvailable.Count > customers.Length && m_gameStart)
         {
             m_newCustomer = NewCustomer();
             StartCoroutine(m_newCustomer);
@@ -80,24 +91,22 @@ public class GameManager : MonoBehaviour
         if (foodAvailable.Count == 0)
         {
             //ENDGAME
-            Time.timeScale = 0;
+            Summup();
         }
 
         m_totalCashText.text = "Cash : " + totalCash.ToString() + " $ ";
 
         if(Input.GetKeyDown(KeyCode.Space) && !m_gameStart)
         {
-            AudioSource audioPlayer = m_interact.GetComponent<AudioSource>();
-
             if (m_tutoHighlight.activeInHierarchy)
             {
-                audioPlayer.PlayOneShot(m_tutoClick);
+                m_audioPlayer.PlayOneShot(m_tutoClick);
 
                 m_tutoHighlight.SetActive(false);
                 Time.timeScale = 1;
             }else if (m_tutoDrop.activeInHierarchy)
             {
-                audioPlayer.PlayOneShot(m_tutoClick);
+                m_audioPlayer.PlayOneShot(m_tutoClick);
 
                 m_gameStart = true;
                 m_tutoDrop.SetActive(false);
@@ -113,24 +122,69 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(coroutine);
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && !isEnded)
+        {
+            Menu();
+        }
+    }
+
+    public void Menu()
+    {
+        if (m_menu.activeInHierarchy)
+        {
+            Time.timeScale = 1;
+            Cursor.lockState = CursorLockMode.Locked;
+            m_menu.SetActive(false);
+        }
+        else
+        {
+            Time.timeScale = 0;
+            Cursor.lockState = CursorLockMode.Confined;
+            m_menu.SetActive(true);
+        }
+    }
+
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+        Application.Quit();
+    }
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("ShopLevel");
+    }
+
+    private void Summup()
+    {
+        isEnded = true;
+
+        Time.timeScale = 0;
+        Cursor.lockState = CursorLockMode.Confined;
+        m_summup.SetActive(true);
+
+
     }
 
     IEnumerator TutoHighlight()
     {
         yield return new WaitForSeconds(3);
         Time.timeScale = 0;
-
         m_tutoHighlight.SetActive(true);
+
+        m_audioPlayer.PlayOneShot(m_tutoText);
     }
 
     IEnumerator TutoDrop()
     {
         yield return new WaitForSeconds(0.5f);
-        Debug.Log("Spamming");
-
         Time.timeScale = 0;
-
         m_tutoDrop.SetActive(true);
+        m_audioPlayer.PlayOneShot(m_tutoText);
     }
 
     IEnumerator NewCustomer()

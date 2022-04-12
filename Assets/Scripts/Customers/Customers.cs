@@ -16,7 +16,9 @@ public class Customers : MonoBehaviour
 
     //Sound
     private AudioSource m_audioSource;
-    [SerializeField] private AudioClip m_audioBoing;
+    [SerializeField] private AudioClip m_sfxBoing;
+    [SerializeField] private AudioClip m_sfxPop;
+    [SerializeField] private AudioClip m_sfxCash;
 
     //Feed him
     public bool isEating = false;
@@ -57,7 +59,6 @@ public class Customers : MonoBehaviour
     {
         m_myPosition = Position.Start;
 
-        
         m_anim = GetComponent<Animator>();
         m_audioSource = GetComponent<AudioSource>();
         m_gameManager = GameManager.instance;
@@ -80,12 +81,13 @@ public class Customers : MonoBehaviour
             DestroyPopup();
         }
 
+
         if (m_isMad)
         {
             m_cashPenalty += (Time.deltaTime) / 3;
         }else
         {
-            m_cashPenalty += (Time.deltaTime) / 10;
+            m_cashPenalty += (Time.deltaTime) / 8;
         }
     }
 
@@ -139,7 +141,7 @@ public class Customers : MonoBehaviour
     }
     public void CashPopup(int amount, bool isMad)
     {
-
+        m_audioSource.PlayOneShot(m_sfxCash);
 
         int cashOut = amount - Mathf.FloorToInt(m_cashPenalty);
         cashOut = Mathf.Clamp(cashOut, 1, amount);
@@ -243,6 +245,7 @@ public class Customers : MonoBehaviour
             visual.SetActive(false);
         }
         Instantiate(m_particleEffect, transform);
+        m_audioSource.PlayOneShot(m_sfxPop);
 
         yield return new WaitForSeconds(1);
         if (m_myPosition == Position.First)
@@ -276,7 +279,7 @@ public class Customers : MonoBehaviour
 
     void BoingSound()
     {
-        m_audioSource.clip = m_audioBoing;
+        m_audioSource.clip = m_sfxBoing;
         m_audioSource.Play();
     }
 

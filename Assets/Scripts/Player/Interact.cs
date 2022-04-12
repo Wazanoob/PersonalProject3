@@ -69,20 +69,19 @@ public class Interact : MonoBehaviour
                                     {
                                         //Happy Customer
                                         customer.CashPopup(selectedObject.price, false);
-                                        Debug.Log("Miam");
                                     }
                                     else
                                     {
                                         //Sad Customer
                                         int newPrice = selectedObject.price - m_wrongFoodPenalty;
                                         customer.CashPopup(newPrice, true);
-                                        Debug.Log("Erk");
                                     }
                                 }
                                 else
                                 {
                                     //Sad Customer
-                                    Debug.Log("Erk");
+                                    int newPrice = selectedObject.price - m_wrongFoodPenalty;
+                                    customer.CashPopup(newPrice, true);
                                 }
                                 m_selectedObject.transform.parent = customer.targetCustomer.parent;
                                 GameManager.instance.foodAvailable.Remove(m_selectedObject);
