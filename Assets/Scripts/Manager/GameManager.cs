@@ -179,7 +179,7 @@ public class GameManager : MonoBehaviour
 
         if (score > 30)
         {
-            if (averageSpeed < 20)
+            if (averageSpeed < 15)
             {
                 m_textCongrats.text = "Congrats it's almost a perfect score, and you are suuuuuper fast !";
             }else
@@ -188,7 +188,7 @@ public class GameManager : MonoBehaviour
             }
         }else if (score == 40)
         {
-            if (averageSpeed < 20)
+            if (averageSpeed < 15)
             {
                 m_textCongrats.text = "OH MY GOD it's a perfect score!! You are suuuuuper fast and dont like false note!";
             }
