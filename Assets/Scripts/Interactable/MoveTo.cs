@@ -19,6 +19,7 @@ public class MoveTo : MonoBehaviour
     //Price
     //Should Not be Here !
     public int price;
+    public AudioClip foodSound;
 
     private bool m_isSold = false;
 
@@ -43,6 +44,7 @@ public class MoveTo : MonoBehaviour
 
     void MoveToTarget()
     {
+        Debug.Log("Cometome");
         if (!m_targetPlayer) return;
         Vector3 toPosition = m_targetPlayer.position + (m_targetPlayer.rotation * m_defaultDistance);
         Vector3 currentPosition = Vector3.SmoothDamp(transform.position, toPosition, ref m_velocity, m_distance);
@@ -67,6 +69,7 @@ public class MoveTo : MonoBehaviour
             m_interactable.isSelected = true;
             m_gameManager.isObjectSelected = true;
             m_interactable.isHighlighted = false;
+
         }else if (m_interactable.isSelected)
         {
             m_rigidBody.isKinematic = false;

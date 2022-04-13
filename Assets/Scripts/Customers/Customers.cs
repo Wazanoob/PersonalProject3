@@ -23,8 +23,8 @@ public class Customers : MonoBehaviour
     //Feed him
     public bool isEating = false;
     public GameObject wantedFood;
-    public Sprite[] spriteList;
-    public Image wantedSprite;
+    public AudioClip[] clipList;
+    public AudioClip wantedClip;
 
     //Mad
     private bool m_isMad;
@@ -87,7 +87,7 @@ public class Customers : MonoBehaviour
             m_cashPenalty += (Time.deltaTime) / 3;
         }else
         {
-            m_cashPenalty += (Time.deltaTime) / 8;
+            m_cashPenalty += (Time.deltaTime) / 10;
         }
     }
 
@@ -200,36 +200,38 @@ public class Customers : MonoBehaviour
         //Dont have time to implement it well sorry :((
         if (wantedFood.name == "Cupcake_Oreo")
         {
-            wantedSprite.sprite = spriteList[5];
+            wantedClip = clipList[0];
         }
         else if (wantedFood.name == "Cupcake_Cherry")
         {
-            wantedSprite.sprite = spriteList[4];
+            wantedClip = clipList[1];
         }
         else if (wantedFood.name == "Cheesecake_Blueberry")
         {
-            wantedSprite.sprite = spriteList[7];
+            wantedClip = clipList[2];
         }
         else if (wantedFood.name == "Cheesecake_Chocolate")
         {
-            wantedSprite.sprite = spriteList[6];
+            wantedClip = clipList[3];
         }
         else if (wantedFood.name == "MacaronBox")
         {
-            wantedSprite.sprite = spriteList[0];
+            wantedClip = clipList[4];
         }
         else if (wantedFood.name == "Donut_White")
         {
-            wantedSprite.sprite = spriteList[1];
+            wantedClip = clipList[5];
         }
         else if (wantedFood.name == "Donut_Pink")
         {
-            wantedSprite.sprite = spriteList[2];
+            wantedClip = clipList[6];
         }
         else if (wantedFood.name == "Donut_Black")
         {
-            wantedSprite.sprite = spriteList[3];
+            wantedClip = clipList[7];
         }
+
+        //m_audioSource.PlayOneShot(wantedClip, 0.8f);
     }
 
     public void ExitAnimation()
@@ -285,7 +287,7 @@ public class Customers : MonoBehaviour
 
     IEnumerator RandomWait()
     {
-        float random = Random.Range(2f, 10f);
+        float random = Random.Range(0f, 5f);
         yield return new WaitForSeconds(random);
         NextPosition(m_myPosition);
     }

@@ -60,6 +60,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Interact m_interact;
     [SerializeField] private AudioClip m_tutoClick;
     [SerializeField] private AudioClip m_tutoText;
+    [SerializeField] private Animator m_doorAnim;
 
 
     // Start is called before the first frame update
@@ -87,6 +88,10 @@ public class GameManager : MonoBehaviour
             m_newCustomer = NewCustomer();
             StartCoroutine(m_newCustomer);
         }
+        else if (foodAvailable.Count == 3)
+        {
+            m_doorAnim.SetBool("Open Door", false);
+        }
 
         if (foodAvailable.Count == 0)
         {
@@ -108,6 +113,7 @@ public class GameManager : MonoBehaviour
             {
                 m_audioPlayer.PlayOneShot(m_tutoClick);
 
+                m_doorAnim.SetBool("Open Door",true);
                 m_gameStart = true;
                 m_tutoDrop.SetActive(false);
                 Time.timeScale = 1;
@@ -189,10 +195,8 @@ public class GameManager : MonoBehaviour
 
     IEnumerator NewCustomer()
     {
-        int random = Random.Range(1, 6);
-        yield return new WaitForSeconds(random);
+        yield return new WaitForSeconds(4);
         Instantiate(m_customer);
-
         m_newCustomer = null;
     }
 }

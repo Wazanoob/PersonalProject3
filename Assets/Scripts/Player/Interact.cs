@@ -44,6 +44,9 @@ public class Interact : MonoBehaviour
                             hit.transform.gameObject.SendMessage("Interact", SendMessageOptions.DontRequireReceiver);
                         }
                     }
+                }else if(Input.GetKeyDown(KeyCode.R))
+                {
+                    PlaySound();
                 }
             }
             else
@@ -60,7 +63,6 @@ public class Interact : MonoBehaviour
                             {
                                 MoveTo selectedObject = m_selectedObject.GetComponent<MoveTo>();
                                 selectedObject.m_targetCustomer = customer.targetCustomer;
-                                customer.wantedSprite.enabled = false;
                                 selectedObject.SellToCustomer();
 
                                 if (customer.wantedFood != null)
@@ -102,6 +104,30 @@ public class Interact : MonoBehaviour
                         }
                     }
                 }
+                else if (Input.GetKeyDown(KeyCode.R))
+                {
+                    PlaySound();
+                }
+            }
+        }
+    }
+
+    void PlaySound()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, transform.forward, out hit))
+        {
+            if (hit.transform.gameObject.CompareTag("Interactable"))
+            {
+                MoveTo selectedObject = hit.transform.gameObject.GetComponent<MoveTo>();
+
+                m_audioSource.PlayOneShot(selectedObject.foodSound, .5f);
+            }
+            else if (hit.transform.gameObject.CompareTag("Customers"))
+            {
+                Customers customer = hit.transform.gameObject.GetComponent<Customers>();
+                m_audioSource.PlayOneShot(customer.wantedClip, .15f);
             }
         }
     }
