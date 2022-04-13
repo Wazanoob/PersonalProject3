@@ -8,6 +8,7 @@ TagManager:
   - Interactable
   - Customers
   - GPE
+  - Bug
   layers:
   - Default
   - TransparentFX

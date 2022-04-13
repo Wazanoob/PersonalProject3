@@ -21,11 +21,16 @@ public class MoveTo : MonoBehaviour
     public int price;
     public AudioClip foodSound;
 
+    //Reset position
+    Vector3 m_startPos;
+
     private bool m_isSold = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        m_startPos = transform.position;
+
         m_interactable = GetComponent<Interactable>();
         m_rigidBody = GetComponent<Rigidbody>();
         m_gameManager = GameManager.instance;
@@ -81,5 +86,14 @@ public class MoveTo : MonoBehaviour
     public void SellToCustomer()
     {
         m_isSold = true;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Bug"))
+        {
+            Debug.Log("Bug");
+            transform.position = m_startPos;
+        }
     }
 }

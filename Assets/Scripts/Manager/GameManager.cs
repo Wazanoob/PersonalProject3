@@ -54,6 +54,8 @@ public class GameManager : MonoBehaviour
 
     //Summup
     [SerializeField] private GameObject m_summup;
+    [SerializeField] private TextMeshProUGUI m_textSum;
+    [SerializeField] private TextMeshProUGUI m_textCongrats;
     private bool isEnded = false;
 
     //Ref
@@ -62,6 +64,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioClip m_tutoText;
     [SerializeField] private Animator m_doorAnim;
 
+    //Score
+    public int score = 0;
+    public float speedToServe = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -75,7 +80,6 @@ public class GameManager : MonoBehaviour
         m_tutoDrop.SetActive(false);
 
         StartCoroutine(TutoHighlight());
-
     }
 
     // Update is called once per frame
@@ -88,7 +92,7 @@ public class GameManager : MonoBehaviour
             m_newCustomer = NewCustomer();
             StartCoroutine(m_newCustomer);
         }
-        else if (foodAvailable.Count == 3)
+        else if (foodAvailable.Count == 2)
         {
             m_doorAnim.SetBool("Open Door", false);
         }
@@ -167,13 +171,40 @@ public class GameManager : MonoBehaviour
 
     private void Summup()
     {
+        float averageSpeed;
+        averageSpeed = speedToServe / 40;
         isEnded = true;
+
+        m_textSum.text = "Service speed : " + averageSpeed.ToString() + "\n" + "\n" + "Happy Customers : " + score.ToString() + " / 40 \n" + "\n" + "Cash : " + totalCash.ToString();
+
+        if (score > 30)
+        {
+            if (averageSpeed < 20)
+            {
+                m_textCongrats.text = "Congrats it's almost a perfect score, and you are suuuuuper fast !";
+            }else
+            {
+                m_textCongrats.text = "Congrats it's almost a perfect score, but you can still go faster !";
+            }
+        }else if (score == 40)
+        {
+            if (averageSpeed < 20)
+            {
+                m_textCongrats.text = "OH MY GOD it's a perfect score!! You are suuuuuper fast and dont like false note!";
+            }
+            else
+            {
+                m_textCongrats.text = "OH MY GOD it's a perfect score, but you can still go faster !";
+            }
+        }
+        else if (score < 30)
+        {
+            m_textCongrats.text = "Mmmhh you still need to practice, we need more cash !";
+        }
 
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.Confined;
         m_summup.SetActive(true);
-
-
     }
 
     IEnumerator TutoHighlight()

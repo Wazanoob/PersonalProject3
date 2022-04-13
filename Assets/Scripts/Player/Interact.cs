@@ -71,12 +71,15 @@ public class Interact : MonoBehaviour
                                     {
                                         //Happy Customer
                                         customer.CashPopup(selectedObject.price, false);
+                                        GameManager.instance.score += 1;
+                                        GameManager.instance.speedToServe += customer.timeServed;
                                     }
                                     else
                                     {
                                         //Sad Customer
                                         int newPrice = selectedObject.price - m_wrongFoodPenalty;
                                         customer.CashPopup(newPrice, true);
+                                        GameManager.instance.speedToServe += customer.timeServed;
                                     }
                                 }
                                 else
@@ -84,6 +87,7 @@ public class Interact : MonoBehaviour
                                     //Sad Customer
                                     int newPrice = selectedObject.price - m_wrongFoodPenalty;
                                     customer.CashPopup(newPrice, true);
+                                    GameManager.instance.speedToServe += customer.timeServed;
                                 }
                                 m_selectedObject.transform.parent = customer.targetCustomer.parent;
                                 GameManager.instance.foodAvailable.Remove(m_selectedObject);
@@ -127,7 +131,7 @@ public class Interact : MonoBehaviour
             else if (hit.transform.gameObject.CompareTag("Customers"))
             {
                 Customers customer = hit.transform.gameObject.GetComponent<Customers>();
-                m_audioSource.PlayOneShot(customer.wantedClip, .15f);
+                m_audioSource.PlayOneShot(customer.wantedClip, .5f);
             }
         }
     }

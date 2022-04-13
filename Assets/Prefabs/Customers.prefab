@@ -767,14 +767,15 @@ MonoBehaviour:
   wantedFood: {fileID: 0}
   clipList:
   - {fileID: 8300000, guid: 82d3c552dc7bcca4ba78284a45fdebbf, type: 3}
-  - {fileID: 8300000, guid: fb918669b66664b48829e0ce59375f70, type: 3}
-  - {fileID: 8300000, guid: c7a4e624f58f96d4894d8b58ffaf19be, type: 3}
+  - {fileID: 8300000, guid: 49b81da6076bbab409fee33a70a7c645, type: 3}
+  - {fileID: 8300000, guid: ec84661ea956a1c419b4a51b1e5e94a5, type: 3}
   - {fileID: 8300000, guid: edff2a816c8ad9f42a17a396ab8590ff, type: 3}
   - {fileID: 8300000, guid: 443a243fb19fe144488d108150898a0b, type: 3}
   - {fileID: 8300000, guid: f0b101a8afc64804f848ebb070989785, type: 3}
   - {fileID: 8300000, guid: b9b9e94410dda2143b2b350c34b350c8, type: 3}
   - {fileID: 8300000, guid: bee98e578a1021c4d88878abdecfec67, type: 3}
   wantedClip: {fileID: 8300000, guid: 5ffabfa26a1905b438cb24df0a06d682, type: 3}
+  timeServed: 0
   m_popup: {fileID: 328139630583223025, guid: f33d2793a9466684393b4fec4c737976, type: 3}
 --- !u!65 &1078419619
 BoxCollider:

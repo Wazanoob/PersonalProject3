@@ -31,6 +31,7 @@ public class Customers : MonoBehaviour
 
     //CashOut
     private float m_cashPenalty =  0;
+    public float timeServed = 0;
 
     //CashPopup
     [SerializeField] private TextMeshPro m_popup;
@@ -71,16 +72,18 @@ public class Customers : MonoBehaviour
 
     private void Update()
     {
-        if (m_gameManager.isLastFree || m_gameManager.isThirdFree || m_gameManager.isSecondFree || m_gameManager.isFirstFree)
+        if (m_gameManager.isThirdFree || m_gameManager.isSecondFree || m_gameManager.isFirstFree)
         {
             StartCoroutine(RandomWait());
+        }else if (m_gameManager.isLastFree)
+        {
+            NextPosition(m_myPosition);
         }
 
         if (m_cashPopup != null)
         {
             DestroyPopup();
         }
-
 
         if (m_isMad)
         {
@@ -89,6 +92,8 @@ public class Customers : MonoBehaviour
         {
             m_cashPenalty += (Time.deltaTime) / 10;
         }
+
+        timeServed += Time.deltaTime;
     }
 
 
@@ -200,35 +205,35 @@ public class Customers : MonoBehaviour
         //Dont have time to implement it well sorry :((
         if (wantedFood.name == "Cupcake_Oreo")
         {
-            wantedClip = clipList[0];
+            wantedClip = clipList[6];
         }
         else if (wantedFood.name == "Cupcake_Cherry")
         {
-            wantedClip = clipList[1];
+            wantedClip = clipList[7];
         }
         else if (wantedFood.name == "Cheesecake_Blueberry")
         {
-            wantedClip = clipList[2];
+            wantedClip = clipList[0];
         }
         else if (wantedFood.name == "Cheesecake_Chocolate")
         {
-            wantedClip = clipList[3];
+            wantedClip = clipList[1];
         }
         else if (wantedFood.name == "MacaronBox")
         {
-            wantedClip = clipList[4];
+            wantedClip = clipList[2];
         }
         else if (wantedFood.name == "Donut_White")
         {
-            wantedClip = clipList[5];
+            wantedClip = clipList[3];
         }
         else if (wantedFood.name == "Donut_Pink")
         {
-            wantedClip = clipList[6];
+            wantedClip = clipList[4];
         }
         else if (wantedFood.name == "Donut_Black")
         {
-            wantedClip = clipList[7];
+            wantedClip = clipList[5];
         }
 
         //m_audioSource.PlayOneShot(wantedClip, 0.8f);
